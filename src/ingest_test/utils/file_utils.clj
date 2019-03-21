@@ -27,7 +27,7 @@
           [site-info-headers site-info-records enrollment-headers enrollment-records]))
 
 
-(defn write-to-file [headers records]
+(defn write-to-file-one [headers records]
     (spit output-file (str "Site Number," "State," "Country\n"))
     (dorun (map #(spit output-file (str % "\n") :append true) records)))
 
@@ -38,6 +38,6 @@
               (->> site-info-records
                   (map #(zipmap site-info-headers %)))))
             site-info-strings (into [] (for [m site-info-maps :let [{:keys [Site_Number State Country]} m]] (str Site_Number "," State "," Country)))]
-    (write-to-file site-info-headers (vec (distinct site-info-strings)))))
+    (write-to-file-one site-info-headers (vec (distinct site-info-strings)))))
 
     ;(println (first enrollment-maps))))

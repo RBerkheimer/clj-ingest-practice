@@ -1,18 +1,19 @@
 (ns ingest-test.utils.file-utils
-    (:require [clojure.string :refer [split-lines split replace]])
+    (:require   [clojure.java.io :as io]
+                [clojure.string :refer [split-lines split replace]])
     (:gen-class))
 
 
 ;patient info regarding people in studies for the ANDROMEDA project
 ;Country,Site Number,Investigator Name,Subject ID,Screen Date,Screen Failure Date,Rescreen Date,Randomization Date,Randomization Number,Patient Type
-(def enrollment-file "/Users/rberkheimer/projects/test/reify/ingest-test/resources/inputs/andromeda_ivrs_enrollment_data_2018.csv")
+(def enrollment-file (io/resource "inputs/andromeda_ivrs_enrollment_data_2018.csv"))
 
 ;non-unique csv of sites (duplicates exist)
 ;Columns - Site #,Site Status,Site Activation Date,State,Country
-(def site-info-file "/Users/rberkheimer/projects/test/reify/ingest-test/resources/inputs/andromeda_site_information_report_2018.csv")
+(def site-info-file (io/resource "inputs/andromeda_site_information_report_2018.csv"))
 
 ;output file
-(def output-file "/Users/rberkheimer/projects/test/reify/ingest-test/resources/outputs/output.csv")
+(def output-file (io/resource "outputs/output.csv"))
 
 
 (defn load-test-files []
@@ -23,9 +24,7 @@
           site-info-headers (map #(keyword %) (split (replace (replace (first site-info) "#" "Number") " " "_") #","))
           enrollment-records (map #(split % #",") (rest enrollments))
           site-info-records (map #(split % #",") (rest site-info))]
-          (println enrollment-headers)
           [site-info-headers site-info-records enrollment-headers enrollment-records]))
-          ;(println site-info-headers)))
 
 
 (defn write-to-file [headers records]

@@ -4,7 +4,7 @@
 
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Run the main body of file ingestion/production."
   [& args]
-  (futils/make-single-data-file)
-  )
+  (let [record-maps (futils/make-maps)]
+    (println (nth record-maps 20))))

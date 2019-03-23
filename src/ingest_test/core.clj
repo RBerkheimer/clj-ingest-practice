@@ -7,4 +7,5 @@
   "Run the main body of file ingestion/production."
   [& args]
   (let [record-maps (futils/make-maps)]
-    (println (nth record-maps 20))))
+    (futils/write-output-file record-maps)))
+    ;(println (nth record-maps 20))))

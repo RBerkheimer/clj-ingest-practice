@@ -87,10 +87,12 @@
            (add-computations (assoc-patients site-maps patient-maps))))
 
 
-;(defn write-output-file [site-maps]
-;    (let [headers])
-;    (spit output-file (str "Site Number," "State," "Country\n"))
-;    (dorun (map #(spit output-file (str % "\n") :append true) records)))
+(defn write-output-file [site-maps]
+    (let [records (into [] (for [m site-maps
+        :let [{:keys [Site_Number State Country Total_Patients Total_Randomized_Patients Total_Randomized_Patients_Jan_To_Jul]} m]]
+        (str Site_Number "," State "," Country "," Total_Patients "," Total_Randomized_Patients "," Total_Randomized_Patients_Jan_To_Jul)))]
+    (spit output-file (str "Site Number," "State," "Country," "Total_Patients," "Total_Randomized_Patients," "Total_Randomized_Patients_Jan_To_Jul\n"))
+    (dorun (map #(spit output-file (str % "\n") :append true) (vec (distinct records))))))
 
 
 ;(defn make-data-file []
